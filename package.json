@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "build": "tsc && node ./build/index.js",
+    "dev": "export DEBUG=app.telstat* && ts-node ./source/"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/debug": "^4.1.7",
+    "@types/express": "^4.17.13"
+  }
+}
