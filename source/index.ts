@@ -11,7 +11,7 @@ const log: debug.IDebugger = debug(Config.namespace);
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
 
-mongoDbConnection();
+mongoDbConnection.connect();
 
 app.use(express.json());
 app.use(cors());
