@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import debug from "debug";
 
-import Config from "./Config";
+import Config from "../../Config";
 
 const debugLogger: debug.IDebugger = debug(Config.namespace + ".mongodb");
 
-export default function mongoDbConnect() {
+export default function mongoDbConnection() {
   mongoose.connection.on("error", (error) => {
     debugLogger("Error connecting to MongoDB: " + error);
   });

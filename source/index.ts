@@ -4,14 +4,14 @@ import http from "http";
 import debug from "debug";
 
 import Config from "./Config";
-import mongoDbConnect from "./database";
+import mongoDbConnection from "./services/mongoDbConnection/";
 
 const debugLogger: debug.IDebugger = debug(Config.namespace);
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
 
-mongoDbConnect();
+mongoDbConnection();
 
 app.use(express.json());
 app.use(cors());
