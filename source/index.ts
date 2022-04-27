@@ -3,19 +3,24 @@ import express from "express";
 import http from "http";
 import debug from "debug";
 
-import Config from "./Config";
-import mongoDbConnection from "./services/mongoDbConnection/";
+import config from "./config";
+import MongoDb from "./services/MongoDb";
 
-const log: debug.IDebugger = debug(Config.namespace);
+const log: debug.IDebugger = debug(config.namespace);
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
 
-mongoDbConnection.connect();
+MongoDb.connect({
+  username: config.dbUser,
+  password: config.dbPass,
+  host: config.dbHost,
+  dbName: config.dbName,
+});
 
 app.use(express.json());
 app.use(cors());
 
-server.listen(Config.port, () => {
-  log(`Server running at http://localhost:${Config.port}`);
+server.listen(config.port, () => {
+  log(`Server running at http://localhost:${config.port}`);
 });
