@@ -4,6 +4,7 @@ import http from "http";
 import debug from "debug";
 
 import config from "./config";
+import routes from "./routes";
 import MongoDb from "./services/MongoDb";
 
 const log: debug.IDebugger = debug(config.namespace);
@@ -20,6 +21,8 @@ MongoDb.connect({
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/api", routes);
 
 server.listen(config.port, () => {
   log(`Server running at http://localhost:${config.port}`);
