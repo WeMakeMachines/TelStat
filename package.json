@@ -4,6 +4,7 @@
     "dev": "export DEBUG=app.telstat* && ts-node ./source/"
   },
   "dependencies": {
+    "@typegoose/typegoose": "^9.8.1",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
     "dotenv": "^16.0.0",
