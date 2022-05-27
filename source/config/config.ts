@@ -19,6 +19,7 @@ const log: debug.IDebugger = debug(`${namespace}:config`);
 class ConfigError extends Error {}
 
 class Config {
+  public readonly jwtCookieName = "token";
   public readonly namespace: string;
   public readonly dbHost: string;
   public readonly dbName: string;
