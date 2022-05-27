@@ -44,7 +44,7 @@ class Config {
     log(`reading ${filename}`);
 
     // Only use asynchronous file read on application load
-    return fs.readFileSync(filename, "utf-8");
+    return fs.readFileSync(filename, "utf8");
   }
 }
 

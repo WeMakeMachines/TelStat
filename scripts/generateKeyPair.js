@@ -27,8 +27,8 @@ void (function ({ type, modulusLength }) {
   const privateKeyFilename = `telstat_${type}.private.pem`;
   const publicKeyFilename = `telstat_${type}.public.pem`;
 
-  fs.writeFileSync(`./${privateKeyFilename}`, privateKey);
-  fs.writeFileSync(`./${publicKeyFilename}`, publicKey);
+  fs.writeFileSync(`./${privateKeyFilename}`, privateKey, { encoding: "utf8" });
+  fs.writeFileSync(`./${publicKeyFilename}`, publicKey, { encoding: "utf8" });
 
   console.log(privateKeyFilename, "private key file");
   console.log(publicKeyFilename, "public key file");
