@@ -7,7 +7,13 @@ import {
   handleValidationErrors,
 } from "./middleware";
 import { authoriseUser } from "../../middleware/authorisation";
-import { createUser, loginUser, logoutUser, updateUser } from "./controllers";
+import {
+  createUser,
+  getUser,
+  loginUser,
+  logoutUser,
+  updateUser,
+} from "./controllers";
 
 const router = express.Router();
 
@@ -28,16 +34,15 @@ router.post(
 
 router.get("/logout", logoutUser);
 
-router.get("/", (req, res) => {
-  res.send("ok");
-});
+router.use(authoriseUser);
+
+router.get("/", getUser);
 
 router.patch(
   "/",
   validateUserUpdateDetails(),
   handleValidationErrors,
   sanitiseUserDetails(),
-  authoriseUser,
   updateUser
 );
 

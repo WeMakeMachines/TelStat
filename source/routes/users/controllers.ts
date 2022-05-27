@@ -63,6 +63,25 @@ export async function logoutUser(req: RequestWithUser, res: Response) {
     .send({ success: true });
 }
 
+export async function getUser(req: RequestWithUser, res: Response) {
+  try {
+    // TODO Remove casting here
+    const user = <UserType>req.user;
+
+    const parsedUser = {
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
+
+    res.status(StatusCodes.OK).send(parsedUser);
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send({ error: "An error occurred" });
+  }
+}
+
 export async function updateUser(req: RequestWithUser, res: Response) {
   try {
     const { userName: newUserName, firstName, lastName, password } = req.body;
