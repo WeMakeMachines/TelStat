@@ -26,14 +26,14 @@ export const sanitiseUserDetails = () => {
   const charsAz = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 
   return [
-    body("userName").trim().whitelist(`${charsAz}${charsNumbers}`),
+    body("userName").optional().trim().whitelist(`${charsAz}${charsNumbers}`),
     body("firstName").optional().trim().whitelist(charsAz),
     body("lastName").optional().trim().whitelist(charsAz),
-    body("password").trim(),
+    body("password").optional().trim(),
   ];
 };
 
-export const handleInvalidUserDetails = (
+export const handleValidationErrors = (
   req: Request,
   res: Response,
   next: NextFunction

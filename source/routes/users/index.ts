@@ -1,9 +1,10 @@
 import express from "express";
 import {
   validateUserLoginDetails,
-  handleInvalidUserDetails,
-  sanitiseUserDetails,
   validateUserCreateDetails,
+  validateUserUpdateDetails,
+  sanitiseUserDetails,
+  handleValidationErrors,
 } from "./middleware";
 import { authoriseUser } from "../../middleware/authorisation";
 import { createUser, loginUser, logoutUser, updateUser } from "./controllers";
@@ -13,7 +14,7 @@ const router = express.Router();
 router.post(
   "/create",
   validateUserCreateDetails(),
-  handleInvalidUserDetails,
+  handleValidationErrors,
   sanitiseUserDetails(),
   createUser
 );
@@ -21,7 +22,7 @@ router.post(
 router.post(
   "/login",
   validateUserLoginDetails(),
-  handleInvalidUserDetails,
+  handleValidationErrors,
   loginUser
 );
 
@@ -33,8 +34,9 @@ router.get("/", (req, res) => {
 
 router.patch(
   "/",
+  validateUserUpdateDetails(),
+  handleValidationErrors,
   sanitiseUserDetails(),
-  handleInvalidUserDetails,
   authoriseUser,
   updateUser
 );
