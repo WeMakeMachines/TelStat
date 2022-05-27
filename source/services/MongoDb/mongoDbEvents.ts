@@ -1,9 +1,9 @@
 import debug from "debug";
 import mongoose from "mongoose";
 
-import config from "../../config";
+import config from "../../config/";
 
-const log: debug.IDebugger = debug(config.namespace + ":mongodb");
+const log: debug.IDebugger = debug(config.namespace + ":service:mongodb");
 
 export default function mongoDbEvents() {
   mongoose.connection.on("connecting", () => {

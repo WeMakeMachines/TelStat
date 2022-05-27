@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import Jwt from "../helpers/jsonwebtoken";
 import UsersDAO from "../routes/users/DAO";
-import config from "../config/config";
+import config from "../config";
 import { RequestWithUser } from "../types";
 
 export async function authoriseUser(

@@ -2,7 +2,7 @@ import debug from "debug";
 import jwt from "jsonwebtoken";
 import { UserType } from "../../types/schemas/User";
 
-import config from "../../config/config";
+import config from "../../config";
 import { JwtPayload } from "../../types";
 
 const log: debug.IDebugger = debug(config.namespace + ":jsonwebtoken");

@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import config from "../../config/config";
+import config from "../../config";
 import Jwt from "../../helpers/jsonwebtoken";
 import { RequestWithUser } from "../../types";
 import { UserType } from "../../types/schemas/User";

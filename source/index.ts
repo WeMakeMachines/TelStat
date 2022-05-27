@@ -4,7 +4,7 @@ import debug from "debug";
 import express from "express";
 import http from "http";
 
-import config from "./config/config";
+import config from "./config/";
 import routes from "./routes";
 import MongoDb from "./services/MongoDb";
 
