@@ -1,14 +1,14 @@
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import debug from "debug";
 import express from "express";
 import http from "http";
-import debug from "debug";
 
-import config from "./config";
+import config from "./config/config";
 import routes from "./routes";
 import MongoDb from "./services/MongoDb";
 
 const log: debug.IDebugger = debug(config.namespace);
-
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
 
@@ -21,6 +21,7 @@ MongoDb.connect({
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 app.use("/api", routes);
 
