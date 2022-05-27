@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "tsc && node ./build/index.js",
-    "dev": "export DEBUG=app.telstat* && ts-node ./source/"
+    "dev": "export DEBUG=app.telstat* && nodemon ./source/index.ts",
+    "generate-keys": "node ./scripts/generateKeyPair.js"
   },
   "dependencies": {
     "@typegoose/typegoose": "^9.8.1",
