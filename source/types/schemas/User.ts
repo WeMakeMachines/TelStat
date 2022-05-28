@@ -1,6 +1,4 @@
-import { DocumentType, modelOptions, prop, Ref } from "@typegoose/typegoose";
-
-import DeviceSchema from "./Device";
+import { DocumentType, modelOptions, prop } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "users" } })
 export default class UserSchema {
@@ -15,11 +13,6 @@ export default class UserSchema {
 
   @prop({ required: true })
   public hash!: string;
-
-  @prop({
-    ref: () => DeviceSchema,
-  })
-  public devices?: Ref<DeviceSchema>;
 }
 
 export type UserType = DocumentType<UserSchema>;
