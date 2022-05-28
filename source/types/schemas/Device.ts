@@ -1,9 +1,17 @@
-import { DocumentType, modelOptions, prop, Ref } from "@typegoose/typegoose";
+import {
+  DocumentType,
+  modelOptions,
+  prop,
+  Ref,
+  Severity,
+} from "@typegoose/typegoose";
 import mongoose from "mongoose";
 
 import UserSchema from "./User";
 
-@modelOptions({ options: { customName: "devices" } })
+@modelOptions({
+  options: { customName: "devices", allowMixed: Severity.ALLOW },
+})
 export default class DeviceSchema {
   @prop({
     required: true,
