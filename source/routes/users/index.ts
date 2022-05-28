@@ -1,11 +1,11 @@
 import express from "express";
 
+import { handleValidationErrors } from "../../middleware/validation";
 import {
   validateUserLoginDetails,
   validateUserCreateDetails,
   validateUserUpdateDetails,
   sanitiseUserDetails,
-  handleValidationErrors,
 } from "./middleware";
 import { authoriseUser } from "../../middleware/authorisation";
 import {

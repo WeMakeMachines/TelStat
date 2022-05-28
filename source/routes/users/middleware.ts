@@ -1,6 +1,4 @@
-import { Request, Response, NextFunction } from "express";
-import { StatusCodes } from "http-status-codes";
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
 export const validateUserLoginDetails = () => [
   body("userName").isString(),
@@ -31,21 +29,4 @@ export const sanitiseUserDetails = () => {
     body("lastName").optional().trim().whitelist(charsAz),
     body("password").optional().trim(),
   ];
-};
-
-export const handleValidationErrors = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const validationResults = validationResult(req);
-  const hasErrors = !validationResults.isEmpty();
-
-  if (hasErrors) {
-    const errors = validationResults.array();
-
-    return res.status(StatusCodes.BAD_REQUEST).send({ errors });
-  }
-
-  next();
 };
