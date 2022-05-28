@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
+import { TypedResponse, JsonResponse } from "../../types";
 
 import config from "../../config";
 import Jwt from "../../helpers/jsonwebtoken";
@@ -9,7 +10,10 @@ import { UserType } from "../../types/schemas/User";
 import UsersDAO from "./DAO";
 import UsersDTO from "./DTO";
 
-export async function createUser(req: Request, res: Response) {
+export async function createUser(
+  req: Request,
+  res: TypedResponse<JsonResponse>
+) {
   try {
     const { userName, firstName, lastName, password } = req.body;
 
@@ -20,15 +24,18 @@ export async function createUser(req: Request, res: Response) {
       password,
     });
 
-    res.status(StatusCodes.OK).send("User created");
+    res.status(StatusCodes.OK).json({ success: true, message: "User created" });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .send({ error: "An error occurred" });
+      .json({ success: false, message: "An error occurred" });
   }
 }
 
-export async function loginUser(req: Request, res: Response) {
+export async function loginUser(
+  req: Request,
+  res: TypedResponse<JsonResponse>
+) {
   try {
     const { userName, password } = req.body;
 
@@ -46,43 +53,53 @@ export async function loginUser(req: Request, res: Response) {
         httpOnly: true,
         secure: true,
       })
-      .send({ success: true });
+      .json({ success: true });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .send({ error: "Unsuccessful login attempt" });
+      .json({ success: false, message: "Unsuccessful login attempt" });
   }
 }
 
-export async function logoutUser(req: RequestWithUser, res: Response) {
+export async function logoutUser(
+  req: RequestWithUser,
+  res: TypedResponse<JsonResponse>
+) {
   res
     .clearCookie(config.jwtCookieName, {
       httpOnly: true,
       secure: true,
     })
-    .send({ success: true });
+    .json({ success: true });
 }
 
-export async function getUser(req: RequestWithUser, res: Response) {
+export async function getUser(
+  req: RequestWithUser,
+  res: TypedResponse<JsonResponse>
+) {
   try {
     // TODO Remove casting here
     const user = <UserType>req.user;
 
-    const parsedUser = {
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-    };
-
-    res.status(StatusCodes.OK).send(parsedUser);
+    res.status(StatusCodes.OK).json({
+      success: true,
+      data: {
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+    });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .send({ error: "An error occurred" });
+      .json({ success: false, message: "An error occurred" });
   }
 }
 
-export async function updateUser(req: RequestWithUser, res: Response) {
+export async function updateUser(
+  req: RequestWithUser,
+  res: TypedResponse<JsonResponse>
+) {
   try {
     const { userName: newUserName, firstName, lastName, password } = req.body;
 
@@ -97,10 +114,10 @@ export async function updateUser(req: RequestWithUser, res: Response) {
       password,
     });
 
-    res.status(StatusCodes.OK).send("User updated");
+    res.status(StatusCodes.OK).json({ success: true, message: "User updated" });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .send({ error: "An error occurred" });
+      .json({ success: false, message: "An error occurred" });
   }
 }
