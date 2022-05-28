@@ -17,6 +17,10 @@ export async function createUser(
   try {
     const { userName, firstName, lastName, password } = req.body;
 
+    const userNameTaken = await UsersDAO.getUserByUsername(userName);
+
+    if (userNameTaken) throw "Username already taken";
+
     await UsersDTO.createUser({
       userName,
       firstName,
