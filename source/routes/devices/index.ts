@@ -10,9 +10,10 @@ import {
 import { authoriseUser } from "../../middleware/authorisation";
 import {
   createDevice,
+  deleteDevice,
   getAllDevices,
   getDevice,
-  updateDevice,
+  renameDevice,
 } from "./controllers";
 
 const router = express.Router();
@@ -29,15 +30,18 @@ router.post(
 
 router.get("/all", getAllDevices);
 
-router.get("/:deviceId", validateDeviceOwner, getDevice);
+router.get("/:deviceId", getDevice);
+
+router.use(validateDeviceOwner);
+
+router.delete("/:deviceId", deleteDevice);
 
 router.patch(
-  "/",
-  validateDeviceOwner,
+  "/:deviceId",
   validateDeviceUpdateDetails(),
   handleValidationErrors,
   sanitiseDeviceDetails(),
-  updateDevice
+  renameDevice
 );
 
 export default router;

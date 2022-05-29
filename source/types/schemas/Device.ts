@@ -19,8 +19,8 @@ export default class DeviceSchema {
   })
   public owner!: Ref<UserSchema>;
 
-  @prop({ required: true })
-  public label!: string;
+  @prop({ required: true, unique: true })
+  public name!: string;
 
   @prop({ type: () => [mongoose.Schema.Types.Mixed] })
   telemetry?: object[];

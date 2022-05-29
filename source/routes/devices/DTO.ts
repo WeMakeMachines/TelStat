@@ -1,9 +1,7 @@
 import Devices from "../../models/Device";
 
-class DevicesDTO_Error extends Error {}
-
 export default class DevicesDTO {
-  public static async createDevice({
+  public static async create({
     userId,
     label,
   }: {
@@ -22,16 +20,16 @@ export default class DevicesDTO {
     }
   }
 
-  public static async updateDevice({
+  public static async rename({
     deviceId,
-    label,
+    name,
   }: {
     deviceId: string;
-    label: string;
+    name: string;
   }) {
     try {
       await Devices.findByIdAndUpdate(deviceId, {
-        label,
+        name,
       });
 
       return Promise.resolve();
@@ -40,7 +38,7 @@ export default class DevicesDTO {
     }
   }
 
-  public static async deleteDevice({ deviceId }: { deviceId: string }) {
+  public static async delete(deviceId: string) {
     try {
       await Devices.findByIdAndDelete(deviceId);
 
