@@ -6,14 +6,10 @@ import { RequestWithUser } from "../../types";
 import { UserType } from "../../types/schemas/User";
 import DevicesDAO from "./DAO";
 
-export const validateDeviceCreateDetails = () => [
-  body("label").isString(),
-  body("topic").isString(),
-];
+export const validateDeviceCreateDetails = () => [body("label").isString()];
 
 export const validateDeviceUpdateDetails = () => [
   body("label").optional().isString(),
-  body("topic").optional().isString(),
 ];
 
 export const sanitiseDeviceDetails = () => {
@@ -22,7 +18,6 @@ export const sanitiseDeviceDetails = () => {
 
   return [
     body("label").optional().trim().whitelist(`${charsAz}${charsNumbers}`),
-    body("topic").optional().trim().whitelist(`${charsAz}${charsNumbers}`),
   ];
 };
 

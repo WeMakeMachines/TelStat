@@ -7,15 +7,13 @@ export default class DevicesDAO {
   public static async getDevicesByUserId(
     userId: string
   ): Promise<DeviceType[]> {
-    return Devices.find({ owner: userId }).select(["label", "topic"]).lean();
+    return Devices.find({ owner: userId }).select(["label"]).lean();
   }
 
   public static async getDeviceById(
     deviceId: string
   ): Promise<DeviceType | null> {
-    return Devices.findById(deviceId)
-      .select(["label", "topic", "telemetry"])
-      .lean();
+    return Devices.findById(deviceId).select(["label", "telemetry"]).lean();
   }
 
   public static async getDeviceOwner(

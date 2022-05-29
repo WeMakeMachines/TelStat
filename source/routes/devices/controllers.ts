@@ -12,7 +12,7 @@ export async function createDevice(
   res: TypedResponse<JsonResponse>
 ) {
   try {
-    const { label, topic } = req.body;
+    const { label } = req.body;
 
     // TODO Remove casting here
     const user = <UserType>req.user;
@@ -20,7 +20,6 @@ export async function createDevice(
     await DevicesDTO.createDevice({
       userId: user._id,
       label,
-      topic,
     });
 
     res
@@ -80,12 +79,11 @@ export async function updateDevice(
   res: TypedResponse<JsonResponse>
 ) {
   try {
-    const { deviceId, label, topic } = req.body;
+    const { deviceId, label } = req.body;
 
     await DevicesDTO.updateDevice({
       deviceId,
       label,
-      topic,
     });
 
     res

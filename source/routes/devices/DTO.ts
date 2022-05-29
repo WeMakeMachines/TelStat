@@ -6,17 +6,14 @@ export default class DevicesDTO {
   public static async createDevice({
     userId,
     label,
-    topic,
   }: {
     userId: string;
     label: string;
-    topic: string;
   }) {
     try {
       await Devices.create({
         owner: userId,
         label,
-        topic,
       });
 
       return Promise.resolve();
@@ -28,16 +25,13 @@ export default class DevicesDTO {
   public static async updateDevice({
     deviceId,
     label,
-    topic,
   }: {
     deviceId: string;
     label: string;
-    topic: string;
   }) {
     try {
       await Devices.findByIdAndUpdate(deviceId, {
         label,
-        topic,
       });
 
       return Promise.resolve();
