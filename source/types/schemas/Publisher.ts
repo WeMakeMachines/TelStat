@@ -10,9 +10,9 @@ import mongoose from "mongoose";
 import UserSchema from "./User";
 
 @modelOptions({
-  options: { customName: "devices", allowMixed: Severity.ALLOW },
+  options: { customName: "publishers", allowMixed: Severity.ALLOW },
 })
-export default class DeviceSchema {
+export default class PublisherSchema {
   @prop({
     required: true,
     ref: () => UserSchema,
@@ -26,4 +26,4 @@ export default class DeviceSchema {
   telemetry?: object[];
 }
 
-export type DeviceType = DocumentType<DeviceSchema>;
+export type PublisherType = DocumentType<PublisherSchema>;

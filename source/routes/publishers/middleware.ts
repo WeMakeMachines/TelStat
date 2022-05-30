@@ -4,43 +4,39 @@ import { StatusCodes } from "http-status-codes";
 
 import { RequestWithUser } from "../../types";
 import { UserType } from "../../types/schemas/User";
-import DevicesDAO from "./DAO";
+import PublishersDAO from "./DAO";
 
-export const validateDeviceCreateDetails = () => [body("label").isString()];
+export const validatePublisherName = () => [body("name").isString()];
 
-export const validateDeviceUpdateDetails = () => [
-  body("label").optional().isString(),
-];
-
-export const sanitiseDeviceDetails = () => {
+export const sanitisePublisherName = () => {
   const charsNumbers = "0123456789";
   const charsAz = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 
   return [
-    body("label").optional().trim().whitelist(`${charsAz}${charsNumbers}`),
+    body("name").optional().trim().whitelist(`${charsAz}${charsNumbers}`),
   ];
 };
 
-export const validateDeviceOwner = async (
+export const validatePublisherOwner = async (
   req: RequestWithUser,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { deviceId } = req.params;
+    const { publisherId } = req.params;
 
     // TODO Remove casting here
     const user = <UserType>req.user;
-    const device = await DevicesDAO.getDeviceOwner(deviceId);
+    const publisher = await PublishersDAO.getOwner(publisherId);
 
-    if (!device) throw "Device not found";
-    if (!user._id.equals(device.owner)) throw "Id mismatch";
+    if (!publisher) throw new Error("Publisher not found");
+    if (!user._id.equals(publisher.owner)) throw new Error("Id mismatch");
 
     next();
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).send({
       success: false,
-      message: "Invalid device",
+      message: (error as Error).message,
     });
   }
 };

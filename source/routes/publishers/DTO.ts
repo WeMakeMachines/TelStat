@@ -1,34 +1,16 @@
-import Devices from "../../models/Device";
+import Publishers from "../../models/Publisher";
 
-export default class DevicesDTO {
+export default class PublishersDTO {
   public static async create({
     userId,
-    label,
-  }: {
-    userId: string;
-    label: string;
-  }) {
-    try {
-      await Devices.create({
-        owner: userId,
-        label,
-      });
-
-      return Promise.resolve();
-    } catch (error) {
-      return Promise.reject((error as Error).message);
-    }
-  }
-
-  public static async rename({
-    deviceId,
     name,
   }: {
-    deviceId: string;
+    userId: string;
     name: string;
   }) {
     try {
-      await Devices.findByIdAndUpdate(deviceId, {
+      await Publishers.create({
+        owner: userId,
         name,
       });
 
@@ -38,9 +20,27 @@ export default class DevicesDTO {
     }
   }
 
-  public static async delete(deviceId: string) {
+  public static async rename({
+    publisherId,
+    name,
+  }: {
+    publisherId: string;
+    name: string;
+  }) {
     try {
-      await Devices.findByIdAndDelete(deviceId);
+      await Publishers.findByIdAndUpdate(publisherId, {
+        name,
+      });
+
+      return Promise.resolve();
+    } catch (error) {
+      return Promise.reject((error as Error).message);
+    }
+  }
+
+  public static async delete(publisherId: string) {
+    try {
+      await Publishers.findByIdAndDelete(publisherId);
 
       return Promise.resolve();
     } catch (error) {
