@@ -1,9 +1,13 @@
+import debug from "debug";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import { TypedResponse, JsonResponse } from "../../types";
 
 import TopicsDAO from "./DAO";
 import TopicsDTO from "./DTO";
+import config from "../../config";
+
+const log: debug.IDebugger = debug(config.namespace + ":controllers:topics");
 
 export async function createTopic(
   req: Request,
@@ -18,6 +22,7 @@ export async function createTopic(
       .status(StatusCodes.OK)
       .json({ success: true, message: "Topic created" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -34,6 +39,7 @@ export async function getTopic(req: Request, res: TypedResponse<JsonResponse>) {
       data: topic,
     });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -52,6 +58,7 @@ export async function getAllTopics(
       data: topics,
     });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -72,6 +79,7 @@ export async function renameTopic(
       .status(StatusCodes.OK)
       .json({ success: true, message: "Topic renamed" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });

@@ -1,12 +1,18 @@
+import debug from "debug";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
-import { TypedResponse, JsonResponse } from "../../types";
 
+import { TypedResponse, JsonResponse } from "../../types";
 import { RequestWithUser } from "../../types";
 import { PublisherType } from "../../types/schemas/Publisher";
 import { UserType } from "../../types/schemas/User";
 import PublishersDAO from "./DAO";
 import PublishersDTO from "./DTO";
+import config from "../../config";
+
+const log: debug.IDebugger = debug(
+  config.namespace + ":controllers:publishers"
+);
 
 export async function createPublisher(
   req: RequestWithUser,
@@ -27,6 +33,7 @@ export async function createPublisher(
       .status(StatusCodes.OK)
       .json({ success: true, message: "Publisher created" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -48,6 +55,7 @@ export async function getPublisher(
       data: publisher,
     });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -66,6 +74,7 @@ export async function getAllPublishers(
       data: publishers,
     });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -89,6 +98,7 @@ export async function renamePublisher(
       .status(StatusCodes.OK)
       .json({ success: true, message: "Publisher renamed" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -108,6 +118,7 @@ export async function deletePublisher(
       .status(StatusCodes.OK)
       .json({ success: true, message: "Publisher deleted" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });

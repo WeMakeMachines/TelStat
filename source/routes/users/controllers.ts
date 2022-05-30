@@ -1,14 +1,17 @@
+import debug from "debug";
 import bcrypt from "bcrypt";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
-import { TypedResponse, JsonResponse } from "../../types";
 
+import { TypedResponse, JsonResponse } from "../../types";
 import config from "../../config";
 import Jwt from "../../helpers/jsonwebtoken";
 import { RequestWithUser } from "../../types";
 import { UserType } from "../../types/schemas/User";
 import UsersDAO from "./DAO";
 import UsersDTO from "./DTO";
+
+const log: debug.IDebugger = debug(config.namespace + ":controllers:user");
 
 export async function createUser(
   req: Request,
@@ -19,7 +22,7 @@ export async function createUser(
 
     const userNameTaken = await UsersDAO.getUserByUsername(userName);
 
-    if (userNameTaken) throw "Username already taken";
+    if (userNameTaken) throw new Error("Username already taken");
 
     await UsersDTO.createUser({
       userName,
@@ -30,9 +33,10 @@ export async function createUser(
 
     res.status(StatusCodes.OK).json({ success: true, message: "User created" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, message: "An error occurred" });
+      .json({ success: false, message: (error as Error).message });
   }
 }
 
@@ -44,10 +48,10 @@ export async function loginUser(
     const { userName, password } = req.body;
 
     const user = await UsersDAO.getUserByUsername(userName);
-    if (!user) throw "User does not exist";
+    if (!user) throw new Error("User does not exist");
 
     const checkPassword = await bcrypt.compare(password, user.hash);
-    if (!checkPassword) throw "Passwords do not match";
+    if (!checkPassword) throw new Error("Passwords do not match");
 
     const token = await Jwt.sign(user);
 
@@ -59,9 +63,10 @@ export async function loginUser(
       })
       .json({ success: true });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, message: "Unsuccessful login attempt" });
+      .json({ success: false, message: (error as Error).message });
   }
 }
 
@@ -94,6 +99,7 @@ export async function getUser(
       },
     });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
@@ -120,6 +126,7 @@ export async function updateUser(
 
     res.status(StatusCodes.OK).json({ success: true, message: "User updated" });
   } catch (error) {
+    log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: "An error occurred" });
