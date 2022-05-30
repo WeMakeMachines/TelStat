@@ -1,18 +1,19 @@
 import { DocumentType, modelOptions, prop, Ref } from "@typegoose/typegoose";
 
-import DeviceSchema from "./Device";
+import PublisherSchema from "./Publisher";
 
 @modelOptions({
   options: { customName: "topics" },
 })
 export default class TopicSchema {
-  @prop({ required: true })
+  @prop({ required: true, unique: true })
   public name!: string;
 
   @prop({
-    ref: () => DeviceSchema,
+    ref: () => PublisherSchema,
+    default: [],
   })
-  public devices?: Ref<TopicSchema>[];
+  public publishers!: Ref<PublisherSchema>[];
 }
 
 export type TopicType = DocumentType<TopicSchema>;

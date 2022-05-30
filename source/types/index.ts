@@ -16,7 +16,7 @@ export interface RequestWithUser extends Request {
 export interface JsonResponse {
   success: boolean;
   message?: string;
-  data?: object | [];
+  data?: object | [] | null;
 }
 
 export interface TypedResponse<ResBody> extends Response {
