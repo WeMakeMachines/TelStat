@@ -1,10 +1,5 @@
 import { body } from "express-validator";
 
-export const validateUserLoginDetails = () => [
-  body("userName").isString(),
-  body("password").isString(),
-];
-
 export const validateUserCreateDetails = () => [
   body("userName").isString(),
   body("firstName").optional().isString(),

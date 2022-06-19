@@ -1,11 +1,11 @@
 import debug from "debug";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
-import { TypedResponse, JsonResponse } from "../../types";
 
-import TopicsDAO from "./DAO";
-import TopicsDTO from "./DTO";
 import config from "../../config";
+import { TypedResponse, JsonResponse } from "../../types";
+import TopicsDAO from "../../services/DAO/Topics";
+import TopicsDTO from "../../services/DTO/Topics";
 
 const log: debug.IDebugger = debug(config.namespace + ":controllers:topics");
 

@@ -2,13 +2,12 @@ import debug from "debug";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { TypedResponse, JsonResponse } from "../../types";
-import { RequestWithUser } from "../../types";
+import config from "../../config";
+import { RequestWithUser, TypedResponse, JsonResponse } from "../../types";
 import { PublisherType } from "../../types/schemas/Publisher";
 import { UserType } from "../../types/schemas/User";
-import PublishersDAO from "./DAO";
-import PublishersDTO from "./DTO";
-import config from "../../config";
+import PublishersDAO from "../../services/DAO/Publishers";
+import PublishersDTO from "../../services/DTO/Publishers";
 
 const log: debug.IDebugger = debug(
   config.namespace + ":controllers:publishers"
