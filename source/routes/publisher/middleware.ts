@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { RequestWithUser } from "../../types";
 import { UserType } from "../../types/schemas/User";
-import PublishersDAO from "./DAO";
+import PublishersDAO from "../../services/DAO/Publishers";
 
 export const validatePublisherName = () => [body("name").isString()];
 

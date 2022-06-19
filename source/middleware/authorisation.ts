@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import Jwt from "../helpers/jsonwebtoken";
-import UsersDAO from "../routes/users/DAO";
 import config from "../config";
+import Jwt from "../helpers/jsonwebtoken";
+import UsersDAO from "../services/DAO/Users";
 import { RequestWithUser } from "../types";
 
 export async function authoriseUser(

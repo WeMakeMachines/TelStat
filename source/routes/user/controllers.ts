@@ -1,15 +1,12 @@
 import debug from "debug";
-import bcrypt from "bcrypt";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { TypedResponse, JsonResponse } from "../../types";
 import config from "../../config";
-import Jwt from "../../helpers/jsonwebtoken";
-import { RequestWithUser } from "../../types";
+import { RequestWithUser, TypedResponse, JsonResponse } from "../../types";
 import { UserType } from "../../types/schemas/User";
-import UsersDAO from "./DAO";
-import UsersDTO from "./DTO";
+import UsersDAO from "../../services/DAO/Users";
+import UsersDTO from "../../services/DTO/Users";
 
 const log: debug.IDebugger = debug(config.namespace + ":controllers:user");
 
@@ -38,48 +35,6 @@ export async function createUser(
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: (error as Error).message });
   }
-}
-
-export async function loginUser(
-  req: Request,
-  res: TypedResponse<JsonResponse>
-) {
-  try {
-    const { userName, password } = req.body;
-
-    const user = await UsersDAO.getUserByUsername(userName);
-    if (!user) throw new Error("User does not exist");
-
-    const checkPassword = await bcrypt.compare(password, user.hash);
-    if (!checkPassword) throw new Error("Passwords do not match");
-
-    const token = await Jwt.sign(user);
-
-    res
-      .status(StatusCodes.OK)
-      .cookie(config.jwtCookieName, token, {
-        httpOnly: true,
-        secure: true,
-      })
-      .json({ success: true });
-  } catch (error) {
-    log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, message: (error as Error).message });
-  }
-}
-
-export async function logoutUser(
-  req: RequestWithUser,
-  res: TypedResponse<JsonResponse>
-) {
-  res
-    .clearCookie(config.jwtCookieName, {
-      httpOnly: true,
-      secure: true,
-    })
-    .json({ success: true });
 }
 
 export async function getUser(
